@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <input type="text" id="enter" autocomplete="off" placeholder="Enter Your comment here"> <button
+            onclick="submit()">send</button>
+        <div class="store_text">
+
+        </div>
+
+
+    </div>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(15, 14, 14);
+            flex-direction: column;
+        }
+
+        .store_text {
+            margin-top: 0;
+            margin-bottom: 0;
+            padding: 30px;
+            width: 300px;
+            background-color: rgb(8, 8, 8);
+
+
+            height: fit-content;
+            width: 400px;
+
+        }
+
+        .text {
+            border: 1px solid red transparent;
+            background-color: rgba(19, 18, 18, 0.925);
+            border-radius: 20px;
+            height: fit-content;
+            padding: 10px;
+            color: white;
+            text-align: end;
+            margin: 10px;
+
+        }
+
+        input {
+            text-align: center;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        button:hover {
+            cursor: pointer;
+        }
+    </style>
+    <script>
+
+        let url = 'http://localhost:8000/data'
+        function submit(params) {
+            let Comment = document.getElementById('enter').value
+
+            fetch(url, {
+                method: "post",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ Comment })
+
+            })
+
+        }
+        let message = document.getElementsByClassName('store_text')[0]
+        function check_comment(params) {
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    data.comments.forEach(element => {
+                        message.innerHTML +=
+                            ` 
+            <div class="text">
+                <p>${element[0]}</p>
+            </div>`
+
+
+
+
+                    });
+
+                })
+
+        }
+        setInterval(check_comment(), 1000)
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
